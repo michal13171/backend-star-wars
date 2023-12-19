@@ -1,5 +1,6 @@
+import {Date} from "./date.interface";
 
-export interface PlanetsInterface {
+export interface PlanetsInterface extends Date {
 	name: string,
 	rotation_period: string,
 	orbital_period: string,
@@ -11,7 +12,5 @@ export interface PlanetsInterface {
 	population: string,
 	residents: Array<string>,
 	films: Array<string>,
-	created: string,
-	edited: string,
 	url: string,
 }

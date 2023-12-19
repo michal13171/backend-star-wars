@@ -1,4 +1,6 @@
-export interface PeopleInterface {
+import {Date} from "./date.interface";
+
+export interface PeopleInterface extends Date {
 	name: string,
 	height: string,
 	mass: string,
@@ -12,7 +14,5 @@ export interface PeopleInterface {
 	species: Array<string>,
 	vehicles: Array<string>,
 	starships: Array<string>,
-	created: string,
-	edited: string,
 	url: string,
 }

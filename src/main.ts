@@ -6,7 +6,7 @@ import * as compression from 'compression'
 import helmet from "helmet";
 import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
-import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "./config/environments";
+import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
 const chalk = require('chalk');
 
 async function bootstrap() {

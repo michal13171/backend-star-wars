@@ -1,4 +1,6 @@
-export interface VehiclesInterface {
+import {Date} from "./date.interface";
+
+export interface VehiclesInterface extends Date {
 	name: string,
 	model: string,
 	manufacturer: string,
@@ -12,7 +14,5 @@ export interface VehiclesInterface {
 	vehicle_class: string,
 	pilots: Array<string>,
 	films: Array<string>,
-	created: string,
-	edited: string,
 	url: string,
 }

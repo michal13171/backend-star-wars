@@ -1,4 +1,6 @@
-export interface SpeciesInterface {
+import {Date} from "./date.interface";
+
+export interface SpeciesInterface extends Date {
 	name: string,
 	classification: string,
 	designation: string,
@@ -11,7 +13,5 @@ export interface SpeciesInterface {
 	language: string,
 	people: Array<string>,
 	films: Array<string>,
-	created: string,
-	edited: string,
 	url: string,
 }

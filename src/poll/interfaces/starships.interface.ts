@@ -1,4 +1,6 @@
-export interface StarshipsInterface {
+import {Date} from "./date.interface";
+
+export interface StarshipsInterface extends Date {
 	name: string,
 	model: string,
 	manufacturer: string,
@@ -14,7 +16,5 @@ export interface StarshipsInterface {
 	starship_class: string,
 	pilots: Array<string>,
 	films: Array<string>,
-	created: string,
-	edited: string,
 	url: string,
 }
