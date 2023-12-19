@@ -23,7 +23,6 @@
       "@config": ["src/config"],
       "@environments": ["src/config/environments"],
       "@entities": ["src/poll/entities"],
-      "@utils": ["src/utils"],
     }
   }
 }

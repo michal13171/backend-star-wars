@@ -1,7 +1,8 @@
 import {Expose, plainToClass} from "class-transformer";
-import {Column, Entity, ObjectIdColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {VehiclesInterface} from "../interfaces/vehicles.interface";
-import {uuidv4} from '@utils'
+import {FilmEntity} from "./film.entity";
+import {FilmsInterface} from "../interfaces/films.interface";
 
 @Entity({
 	name: 'vehicles',
@@ -10,9 +11,8 @@ import {uuidv4} from '@utils'
 	}
 })
 export class VehicleEntity implements VehiclesInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string;
+	@PrimaryGeneratedColumn()
+	id: number
 	
 	@Expose()
 	@Column()
@@ -30,9 +30,11 @@ export class VehicleEntity implements VehiclesInterface {
 	@Column()
 	crew: string;
 	
-	@Expose()
-	@Column()
-	films: Array<string>;
+	@ManyToMany(() => FilmEntity, (film) => film.vehicles, {
+		cascade: false,
+	})
+	@JoinTable()
+	films: Array<FilmsInterface>;
 	
 	@Expose()
 	@Column()
@@ -57,11 +59,7 @@ export class VehicleEntity implements VehiclesInterface {
 	@Expose()
 	@Column()
 	passengers: string;
-	
-	@Expose()
-	@Column()
-	pilots: Array<string>;
-	
+
 	@Expose()
 	@Column()
 	url: string;
@@ -86,7 +84,6 @@ export class VehicleEntity implements VehiclesInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}

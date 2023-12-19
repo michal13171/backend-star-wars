@@ -1,4 +1,8 @@
 import {Date} from "./date.interface";
+import {PlanetsInterface} from "./planets.interface";
+import {StarshipsInterface} from "./starships.interface";
+import {VehiclesInterface} from "./vehicles.interface";
+import {SpeciesInterface} from "./species.interface";
 
 export interface FilmsInterface extends Date {
 	title: string,
@@ -7,10 +11,9 @@ export interface FilmsInterface extends Date {
 	director: string,
 	producer: string,
 	release_date: string,
-	characters: Array<string>,
-	planets: Array<string>,
-	starships: Array<string>,
-	vehicles: Array<string>,
-	species: Array<string>,
+	planets: Array<PlanetsInterface>,
+	starships: Array<StarshipsInterface>,
+	vehicles: Array<VehiclesInterface>,
+	species: Array<SpeciesInterface>,
 	url: string,
 }

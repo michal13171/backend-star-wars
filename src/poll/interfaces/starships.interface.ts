@@ -1,4 +1,5 @@
 import {Date} from "./date.interface";
+import {FilmsInterface} from "./films.interface";
 
 export interface StarshipsInterface extends Date {
 	name: string,
@@ -14,7 +15,6 @@ export interface StarshipsInterface extends Date {
 	hyperdrive_rating: string,
 	MGLT: string,
 	starship_class: string,
-	pilots: Array<string>,
-	films: Array<string>,
+	films: Array<FilmsInterface>,
 	url: string,
 }

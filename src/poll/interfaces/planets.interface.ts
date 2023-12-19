@@ -1,4 +1,5 @@
 import {Date} from "./date.interface";
+import {FilmsInterface} from "./films.interface";
 
 export interface PlanetsInterface extends Date {
 	name: string,
@@ -10,7 +11,6 @@ export interface PlanetsInterface extends Date {
 	terrain: string,
 	surface_water: string,
 	population: string,
-	residents: Array<string>,
-	films: Array<string>,
+	films: Array<FilmsInterface>,
 	url: string,
 }

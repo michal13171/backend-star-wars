@@ -1,7 +1,10 @@
 import {Expose, plainToClass} from "class-transformer";
-import {Column, Entity, ObjectIdColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {SpeciesInterface} from "../interfaces/species.interface";
-import {uuidv4} from '@utils'
+import {FilmEntity} from "./film.entity";
+import {FilmsInterface} from "../interfaces/films.interface";
+import {PeopleEntity} from "./people.entity";
+import {PeopleInterface} from "../interfaces/people.interface";
 
 @Entity({
 	name: 'species',
@@ -10,9 +13,8 @@ import {uuidv4} from '@utils'
 	}
 })
 export class SpecieEntity implements SpeciesInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string
+	@PrimaryGeneratedColumn()
+	id: number
 	
 	@Expose()
 	@Column()
@@ -34,9 +36,11 @@ export class SpecieEntity implements SpeciesInterface {
 	@Column()
 	eye_colors: string;
 	
-	@Expose()
-	@Column()
-	films: Array<string>;
+	@ManyToMany(() => FilmEntity, (film) => film.species, {
+		cascade: false,
+	})
+	@JoinTable()
+	films: Array<FilmsInterface>;
 	
 	@Expose()
 	@Column()
@@ -54,9 +58,11 @@ export class SpecieEntity implements SpeciesInterface {
 	@Column()
 	name: string;
 	
-	@Expose()
-	@Column()
-	people: Array<string>;
+	@ManyToMany(() => PeopleEntity, (people) => people.species, {
+		cascade: false,
+	})
+	@JoinTable()
+	people: Array<PeopleInterface>;
 	
 	@Expose()
 	@Column()
@@ -82,7 +88,6 @@ export class SpecieEntity implements SpeciesInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}

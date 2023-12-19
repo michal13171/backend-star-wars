@@ -1,7 +1,8 @@
 import {Expose, plainToClass} from "class-transformer";
-import {Column, Entity, ObjectIdColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {PlanetsInterface} from "../interfaces/planets.interface";
-import {uuidv4} from '@utils'
+import {FilmsInterface} from "../interfaces/films.interface";
+import {FilmEntity} from "./film.entity";
 
 @Entity({
 	name: 'planets',
@@ -10,9 +11,8 @@ import {uuidv4} from '@utils'
 	}
 })
 export class PlanetEntity implements PlanetsInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string
+	@PrimaryGeneratedColumn()
+	id: number
 	
 	@Expose()
 	@Column()
@@ -22,9 +22,11 @@ export class PlanetEntity implements PlanetsInterface {
 	@Column()
 	diameter: string;
 	
-	@Expose()
-	@Column()
-	films: Array<string>;
+	@ManyToMany(() => FilmEntity, (film) => film.planets, {
+		cascade: false,
+	})
+	@JoinTable()
+	films: Array<FilmsInterface>;
 	
 	@Expose()
 	@Column()
@@ -41,10 +43,6 @@ export class PlanetEntity implements PlanetsInterface {
 	@Expose()
 	@Column()
 	population: string;
-	
-	@Expose()
-	@Column()
-	residents: Array<string>;
 	
 	@Expose()
 	@Column()
@@ -78,7 +76,6 @@ export class PlanetEntity implements PlanetsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}

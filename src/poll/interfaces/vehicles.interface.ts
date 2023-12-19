@@ -1,4 +1,5 @@
 import {Date} from "./date.interface";
+import {FilmsInterface} from "./films.interface";
 
 export interface VehiclesInterface extends Date {
 	name: string,
@@ -12,7 +13,6 @@ export interface VehiclesInterface extends Date {
 	cargo_capacity: string,
 	consumables: string,
 	vehicle_class: string,
-	pilots: Array<string>,
-	films: Array<string>,
+	films: Array<FilmsInterface>,
 	url: string,
 }

@@ -1,7 +1,8 @@
 import {Expose, plainToClass} from "class-transformer";
-import {Column, Entity, ObjectIdColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {StarshipsInterface} from "../interfaces/starships.interface";
-import {uuidv4} from '@utils'
+import {FilmsInterface} from "../interfaces/films.interface";
+import {FilmEntity} from "./film.entity";
 
 @Entity({
 	name: 'starships',
@@ -10,9 +11,8 @@ import {uuidv4} from '@utils'
 	}
 })
 export class StarshipEntity implements StarshipsInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string
+	@PrimaryGeneratedColumn()
+	id: number
 	
 	@Expose()
 	@Column()
@@ -34,9 +34,11 @@ export class StarshipEntity implements StarshipsInterface {
 	@Column()
 	crew: string;
 	
-	@Expose()
-	@Column()
-	films: Array<string>;
+	@ManyToMany(() => FilmEntity, (film) => film.starships, {
+		cascade: false,
+	})
+	@JoinTable()
+	films: Array<FilmsInterface>;
 	
 	@Expose()
 	@Column()
@@ -68,10 +70,6 @@ export class StarshipEntity implements StarshipsInterface {
 	
 	@Expose()
 	@Column()
-	pilots: Array<string>;
-	
-	@Expose()
-	@Column()
 	starship_class: string;
 	
 	@Expose()
@@ -94,7 +92,6 @@ export class StarshipEntity implements StarshipsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}

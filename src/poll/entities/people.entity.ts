@@ -1,7 +1,14 @@
 import {PeopleInterface} from "../interfaces/people.interface";
-import {Column, Entity, ObjectIdColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Expose, plainToClass} from "class-transformer";
-import {uuidv4} from '@utils'
+import {FilmsInterface} from "../interfaces/films.interface";
+import {FilmEntity} from "./film.entity";
+import {SpecieEntity} from "./specie.entity";
+import {SpeciesInterface} from "../interfaces/species.interface";
+import {StarshipEntity} from "./starship.entity";
+import {StarshipsInterface} from "../interfaces/starships.interface";
+import {VehicleEntity} from "./vehicle.entity";
+import {VehiclesInterface} from "../interfaces/vehicles.interface";
 
 @Entity({
 	name: 'peoples',
@@ -10,9 +17,8 @@ import {uuidv4} from '@utils'
 	}
 })
 export class PeopleEntity implements PeopleInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string
+	@PrimaryGeneratedColumn()
+	id: number
 	
 	@Expose()
 	@Column()
@@ -22,9 +28,9 @@ export class PeopleEntity implements PeopleInterface {
 	@Column()
 	eye_color: string;
 	
-	@Expose()
-	@Column()
-	films: Array<string>;
+	@ManyToMany(() => FilmEntity)
+	@JoinTable()
+	films: Array<FilmsInterface>;
 	
 	@Expose()
 	@Column()
@@ -54,21 +60,21 @@ export class PeopleEntity implements PeopleInterface {
 	@Column()
 	skin_color: string;
 	
-	@Expose()
-	@Column()
-	species: Array<string>;
+	@ManyToMany(() => SpecieEntity)
+	@JoinTable()
+	species: Array<SpeciesInterface>;
 	
-	@Expose()
-	@Column()
-	starships: Array<string>;
+	@ManyToMany(() => StarshipEntity)
+	@JoinTable()
+	starships: Array<StarshipsInterface>;
 	
 	@Expose()
 	@Column()
 	url: string;
 	
-	@Expose()
-	@Column()
-	vehicles: Array<string>;
+	@ManyToMany(() => VehicleEntity)
+	@JoinTable()
+	vehicles: Array<VehiclesInterface>;
 	
 	@Expose()
 	@Column()
@@ -86,7 +92,6 @@ export class PeopleEntity implements PeopleInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}

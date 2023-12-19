@@ -1,4 +1,6 @@
 import {Date} from "./date.interface";
+import {PeopleInterface} from "./people.interface";
+import {FilmsInterface} from "./films.interface";
 
 export interface SpeciesInterface extends Date {
 	name: string,
@@ -11,7 +13,7 @@ export interface SpeciesInterface extends Date {
 	average_lifespan: string,
 	homeworld: string,
 	language: string,
-	people: Array<string>,
-	films: Array<string>,
+	people: Array<PeopleInterface>,
+	films: Array<FilmsInterface>,
 	url: string,
 }

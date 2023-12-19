@@ -1,7 +1,14 @@
-import {Column, Entity, ObjectIdColumn} from 'typeorm'
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from 'typeorm'
 import {Expose, plainToClass} from 'class-transformer'
 import {FilmsInterface} from "../interfaces/films.interface";
-import {uuidv4} from "@utils";
+import {PlanetEntity} from "./planet.entity";
+import {SpecieEntity} from "./specie.entity";
+import {StarshipEntity} from "./starship.entity";
+import {VehicleEntity} from "./vehicle.entity";
+import {PlanetsInterface} from "../interfaces/planets.interface";
+import {SpeciesInterface} from "../interfaces/species.interface";
+import {StarshipsInterface} from "../interfaces/starships.interface";
+import {VehiclesInterface} from "../interfaces/vehicles.interface";
 
 @Entity({
 	name: 'films',
@@ -10,14 +17,9 @@ import {uuidv4} from "@utils";
 	}
 })
 export class FilmEntity implements FilmsInterface {
-	@Expose()
-	@ObjectIdColumn()
-	_id: string
-	
-	@Expose()
-	@Column()
-	characters: Array<string>;
-	
+	@PrimaryGeneratedColumn()
+	id: number
+
 	@Expose()
 	@Column()
 	director: string;
@@ -30,9 +32,11 @@ export class FilmEntity implements FilmsInterface {
 	@Column()
 	opening_crawl: string;
 	
-	@Expose()
-	@Column()
-	planets: Array<string>;
+	@ManyToMany(() => PlanetEntity, (planet) => planet.films, {
+		cascade: false,
+	})
+	@JoinTable()
+	planets: Array<PlanetsInterface>;
 	
 	@Expose()
 	@Column()
@@ -42,13 +46,17 @@ export class FilmEntity implements FilmsInterface {
 	@Column()
 	release_date: string;
 	
-	@Expose()
-	@Column()
-	species: Array<string>;
+	@ManyToMany(() => SpecieEntity, (specie) => specie.films, {
+		cascade: false,
+	})
+	@JoinTable()
+	species: Array<SpeciesInterface>;
 	
-	@Expose()
-	@Column()
-	starships: Array<string>;
+	@ManyToMany(() => StarshipEntity, (starship) => starship.films, {
+		cascade: false,
+	})
+	@JoinTable()
+	starships: Array<StarshipsInterface>;
 	
 	@Expose()
 	@Column()
@@ -58,9 +66,11 @@ export class FilmEntity implements FilmsInterface {
 	@Column()
 	url: string;
 	
-	@Expose()
-	@Column()
-	vehicles: Array<string>;
+	@ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
+		cascade: false,
+	})
+	@JoinTable()
+	vehicles: Array<VehiclesInterface>;
 	
 	@Expose()
 	@Column()
@@ -78,7 +88,6 @@ export class FilmEntity implements FilmsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this._id = this._id || uuidv4()
 			this.created = this.created || +new Date()
 			this.edited = +new Date()
 		}
