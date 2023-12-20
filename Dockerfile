@@ -1,7 +1,7 @@
 # Stage 1: Compile and Build nestjs
 
 # Use official node image as the base image
-FROM node:18.16.1-bullseye as build
+FROM node:20.5.0-bullseye as build
 
 # Set the working directory
 WORKDIR ./
