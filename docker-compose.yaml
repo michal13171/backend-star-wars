@@ -17,6 +17,14 @@ services:
     volumes:
       - /var/lib/mysql
 
+  redis:
+    container_name: nestjs_redis
+    image: redis:7-bullseye
+    ports:
+      - 6379
+    volumes:
+      - ./tmp/redis_data:/var/lib/redis/data
+
   backend:
     container_name: nestjs_backend
     build:
@@ -26,6 +34,7 @@ services:
       - 3000:3000
     depends_on:
       - db
+      - redis
     volumes:
       - ${PROJECT_ROOT}
-    command: npm start
+    command: npm run start:dev

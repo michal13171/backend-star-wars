@@ -7,7 +7,7 @@ FROM node:20.5.0-bullseye as build
 WORKDIR ./
 
 # Add the source code to app
-ADD . ./
+COPY . ./
 
 # Output dir for app build
 RUN mkdir -p dist

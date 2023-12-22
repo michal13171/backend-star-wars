@@ -4,6 +4,10 @@ dotenv.config()
 
 const NODE_ENV: string = process.env.NODE_ENV || 'development'
 
+const REDIS = {
+	host: process.env.REDIS_HOST,
+	port: parseInt(process.env.REDIS_PORT),
+}
 const TYPEORM = {
 	host: process.env.MYSQL_HOSTNAME,
 	username:  process.env.MYSQL_USER,
@@ -19,6 +23,7 @@ const RATE_LIMIT_MAX: number = 10000;
 export {
 	NODE_ENV,
 	TYPEORM,
+	REDIS,
 	UL_SWAPI,
 	PRIMARY_COLOR,
 	PORT,

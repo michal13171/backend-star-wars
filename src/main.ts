@@ -12,7 +12,7 @@ const chalk = require('chalk');
 async function bootstrap() {
 	try {
 		const app = await NestFactory.create(AppModule, {
-			logger: new MyLogger()
+			logger: new MyLogger(),
 		});
 		
 		// NOTE: adapter for e2e testing
