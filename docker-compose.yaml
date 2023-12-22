@@ -25,6 +25,16 @@ services:
     volumes:
       - ./tmp/redis_data:/var/lib/redis/data
 
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      REDIS_HOSTS: nestjs_redis
+      REDIS_HOST: nestjs_redis
+      REDIS_PORT: redis:6379
+    ports:
+      - 8081:8081
+
   backend:
     container_name: nestjs_backend
     build:
