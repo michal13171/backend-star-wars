@@ -31,6 +31,7 @@ export class FilmEntity implements FilmsInterface {
 	
 	@ManyToMany(() => PlanetEntity, (planet) => planet.films, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	planets: Array<PlanetsInterface>;
@@ -45,12 +46,14 @@ export class FilmEntity implements FilmsInterface {
 	
 	@ManyToMany(() => SpecieEntity, (specie) => specie.films, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	species: Array<SpeciesInterface>;
 	
 	@ManyToMany(() => StarshipEntity, (starship) => starship.films, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	starships: Array<StarshipsInterface>;
@@ -65,6 +68,7 @@ export class FilmEntity implements FilmsInterface {
 	
 	@ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	vehicles: Array<VehiclesInterface>;

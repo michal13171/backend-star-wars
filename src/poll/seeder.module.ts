@@ -1,6 +1,6 @@
 import {Module} from '@nestjs/common';
-import {PeopleSeeder} from "./seeders/people-seeder";
 import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
+import {FilmSeeder, PeopleSeeder} from "@seeders";
 
 @Module({
 	imports: [
@@ -8,6 +8,7 @@ import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
 	],
 	providers: [
 		PeopleSeeder,
+		FilmSeeder,
 	],
 })
 export class SeederCustomModule {}

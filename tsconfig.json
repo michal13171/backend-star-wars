@@ -25,6 +25,7 @@
       "@config": ["src/config"],
       "@environments": ["src/config/environments"],
       "@entities": ["src/poll/entities"],
+      "@seeders": ["src/poll/seeders"]
     }
   }
 }

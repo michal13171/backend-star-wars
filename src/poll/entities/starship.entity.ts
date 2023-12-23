@@ -33,6 +33,7 @@ export class StarshipEntity implements StarshipsInterface {
 	
 	@ManyToMany(() => FilmEntity, (film) => film.starships, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	films: Array<FilmsInterface>;

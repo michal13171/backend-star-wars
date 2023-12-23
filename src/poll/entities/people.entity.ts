@@ -25,7 +25,7 @@ export class PeopleEntity implements PeopleInterface {
 	@Column({nullable: true})
 	eye_color: string;
 	
-	@ManyToMany(() => FilmEntity)
+	@ManyToMany(() => FilmEntity, { nullable: true })
 	@JoinTable()
 	films: Array<FilmsInterface>;
 	
@@ -57,11 +57,11 @@ export class PeopleEntity implements PeopleInterface {
 	@Column({nullable: true})
 	skin_color: string;
 	
-	@ManyToMany(() => SpecieEntity)
+	@ManyToMany(() => SpecieEntity, { nullable: true })
 	@JoinTable()
 	species: Array<SpeciesInterface>;
 	
-	@ManyToMany(() => StarshipEntity)
+	@ManyToMany(() => StarshipEntity, { nullable: true })
 	@JoinTable()
 	starships: Array<StarshipsInterface>;
 	
@@ -69,7 +69,7 @@ export class PeopleEntity implements PeopleInterface {
 	@Column({nullable: true})
 	url: string;
 	
-	@ManyToMany(() => VehicleEntity)
+	@ManyToMany(() => VehicleEntity, { nullable: true })
 	@JoinTable()
 	vehicles: Array<VehiclesInterface>;
 	

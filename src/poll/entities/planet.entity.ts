@@ -21,6 +21,7 @@ export class PlanetEntity implements PlanetsInterface {
 	
 	@ManyToMany(() => FilmEntity, (film) => film.planets, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	films: Array<FilmsInterface>;

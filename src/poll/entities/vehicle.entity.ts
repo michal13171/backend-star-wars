@@ -29,6 +29,7 @@ export class VehicleEntity implements VehiclesInterface {
 	
 	@ManyToMany(() => FilmEntity, (film) => film.vehicles, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	films: Array<FilmsInterface>;

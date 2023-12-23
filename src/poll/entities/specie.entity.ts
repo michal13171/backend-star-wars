@@ -35,6 +35,7 @@ export class SpecieEntity implements SpeciesInterface {
 	
 	@ManyToMany(() => FilmEntity, (film) => film.species, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	films: Array<FilmsInterface>;
@@ -57,6 +58,7 @@ export class SpecieEntity implements SpeciesInterface {
 	
 	@ManyToMany(() => PeopleEntity, (people) => people.species, {
 		cascade: false,
+		nullable: true
 	})
 	@JoinTable()
 	people: Array<PeopleInterface>;

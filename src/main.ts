@@ -7,7 +7,7 @@ import helmet from "helmet";
 import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
-import {PeopleSeeder} from "./poll/seeders/people-seeder";
+import {FilmSeeder, PeopleSeeder} from "@seeders";
 
 const chalk = require('chalk');
 
@@ -55,16 +55,18 @@ async function bootstrap() {
 			'Bootstrap'
 		)
 		
-		const seeder = app.get(PeopleSeeder);
-		seeder
+		let peopleSeeder = app.get(PeopleSeeder);
+		let filmSeeder = app.get(FilmSeeder);
+		
+		peopleSeeder
 			.seed()
-			.then(() => {
-				Logger.debug('Seeding complete!');
-			})
-			.catch(error => {
-				Logger.error('Seeding failed!');
-				throw error;
-			});
+			.then(responseCompleteSeeders)
+			.catch(error => responseErrorSeeders(error));
+		
+		filmSeeder
+			.seed()
+			.then(responseCompleteSeeders)
+			.catch(error => responseErrorSeeders(error));
 		
 	} catch (e) {
 		Logger.error(`❌  Error starting server, ${e}`, '', 'Bootstrap')
@@ -76,3 +78,11 @@ bootstrap().catch(e => {
 	Logger.error(`❌  Error starting server, ${e}`, '', 'Bootstrap')
 	throw e
 });
+
+let responseCompleteSeeders = () => {
+	Logger.debug('Seeding complete!');
+}
+let responseErrorSeeders = (error) => {
+	Logger.error('Seeding failed!');
+	throw error;
+}
