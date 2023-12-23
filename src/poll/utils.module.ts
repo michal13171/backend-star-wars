@@ -6,6 +6,7 @@ import {RedisOptions} from "../config/cache";
 import {ConfigModule} from "@nestjs/config";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 
+
 @Module({
 	controllers: [AppController],
 	imports: [

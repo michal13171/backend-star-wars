@@ -8,32 +8,29 @@ import {PeopleInterface} from "../interfaces/people.interface";
 
 @Entity({
 	name: 'species',
-	orderBy: {
-		createdAt: 'ASC'
-	}
 })
 export class SpecieEntity implements SpeciesInterface {
 	@PrimaryGeneratedColumn()
 	id: number
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	average_height: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	average_lifespan: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	classification: string;
 
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	designation: string;
 
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	eye_colors: string;
 	
 	@ManyToMany(() => FilmEntity, (film) => film.species, {
@@ -43,19 +40,19 @@ export class SpecieEntity implements SpeciesInterface {
 	films: Array<FilmsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	hair_colors: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	homeworld: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	language: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	name: string;
 	
 	@ManyToMany(() => PeopleEntity, (people) => people.species, {
@@ -65,20 +62,20 @@ export class SpecieEntity implements SpeciesInterface {
 	people: Array<PeopleInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	skin_colors: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	url: string;
 	
 	@Expose()
-	@Column()
-	created: number;
+	@Column({nullable: true})
+	created: string;
 	
 	@Expose()
-	@Column()
-	edited: number;
+	@Column({nullable: true})
+	edited: string;
 	
 	constructor(species: Partial<SpecieEntity>) {
 		if (species) {
@@ -88,8 +85,8 @@ export class SpecieEntity implements SpeciesInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this.created = this.created || +new Date()
-			this.edited = +new Date()
+			this.created = this.created.toString() || (new Date()).toString()
+			this.edited = (new Date()).toString()
 		}
 	}
 }

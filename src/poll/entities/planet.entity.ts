@@ -6,20 +6,17 @@ import {FilmEntity} from "./film.entity";
 
 @Entity({
 	name: 'planets',
-	orderBy: {
-		createdAt: 'ASC'
-	}
 })
 export class PlanetEntity implements PlanetsInterface {
 	@PrimaryGeneratedColumn()
 	id: number
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	climate: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	diameter: string;
 	
 	@ManyToMany(() => FilmEntity, (film) => film.planets, {
@@ -29,44 +26,44 @@ export class PlanetEntity implements PlanetsInterface {
 	films: Array<FilmsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	gravity: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	name: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	orbital_period: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	population: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	rotation_period: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	surface_water: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	terrain: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	url: string;
 	
 	@Expose()
-	@Column()
-	created: number;
+	@Column({nullable: true})
+	created: string;
 	
 	@Expose()
-	@Column()
-	edited: number;
+	@Column({nullable: true})
+	edited: string;
 	
 	constructor(planet: Partial<PlanetEntity>) {
 		if (planet) {
@@ -76,8 +73,8 @@ export class PlanetEntity implements PlanetsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this.created = this.created || +new Date()
-			this.edited = +new Date()
+			this.created = this.created.toString() || (new Date()).toString()
+			this.edited = (new Date()).toString()
 		}
 	}
 }

@@ -6,32 +6,29 @@ import {FilmEntity} from "./film.entity";
 
 @Entity({
 	name: 'starships',
-	orderBy: {
-		createdAt: 'ASC'
-	}
 })
 export class StarshipEntity implements StarshipsInterface {
 	@PrimaryGeneratedColumn()
 	id: number
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	MGLT: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	cargo_capacity: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	consumables: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	cost_in_credits: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	crew: string;
 	
 	@ManyToMany(() => FilmEntity, (film) => film.starships, {
@@ -41,48 +38,48 @@ export class StarshipEntity implements StarshipsInterface {
 	films: Array<FilmsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	hyperdrive_rating: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	length: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	manufacturer: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	max_atmosphering_speed: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	model: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	name: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	passengers: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	starship_class: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	url: string;
 	
 	@Expose()
-	@Column()
-	created: number;
+	@Column({nullable: true})
+	created: string;
 	
 	@Expose()
-	@Column()
-	edited: number;
+	@Column({nullable: true})
+	edited: string;
 	
 	constructor(starship: Partial<StarshipEntity>) {
 		if (starship) {
@@ -92,8 +89,8 @@ export class StarshipEntity implements StarshipsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this.created = this.created || +new Date()
-			this.edited = +new Date()
+			this.created = this.created.toString() || (new Date()).toString()
+			this.edited = (new Date()).toString()
 		}
 	}
 }

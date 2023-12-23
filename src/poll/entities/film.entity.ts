@@ -12,24 +12,21 @@ import {VehiclesInterface} from "../interfaces/vehicles.interface";
 
 @Entity({
 	name: 'films',
-	orderBy: {
-		createdAt: 'ASC'
-	}
 })
 export class FilmEntity implements FilmsInterface {
 	@PrimaryGeneratedColumn()
 	id: number
-
+	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	director: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	episode_id: number;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	opening_crawl: string;
 	
 	@ManyToMany(() => PlanetEntity, (planet) => planet.films, {
@@ -39,11 +36,11 @@ export class FilmEntity implements FilmsInterface {
 	planets: Array<PlanetsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	producer: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	release_date: string;
 	
 	@ManyToMany(() => SpecieEntity, (specie) => specie.films, {
@@ -59,11 +56,11 @@ export class FilmEntity implements FilmsInterface {
 	starships: Array<StarshipsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	title: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	url: string;
 	
 	@ManyToMany(() => VehicleEntity, (vehicle) => vehicle.films, {
@@ -73,12 +70,12 @@ export class FilmEntity implements FilmsInterface {
 	vehicles: Array<VehiclesInterface>;
 	
 	@Expose()
-	@Column()
-	created: number;
+	@Column({nullable: true})
+	created: string;
 	
 	@Expose()
-	@Column()
-	edited: number;
+	@Column({nullable: true})
+	edited: string;
 	
 	constructor(film: Partial<FilmEntity>) {
 		if (film) {
@@ -88,8 +85,8 @@ export class FilmEntity implements FilmsInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this.created = this.created || +new Date()
-			this.edited = +new Date()
+			this.created = this.created.toString() || (new Date()).toString()
+			this.edited = (new Date()).toString()
 		}
 	}
 	

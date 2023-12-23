@@ -12,20 +12,17 @@ import {VehiclesInterface} from "../interfaces/vehicles.interface";
 
 @Entity({
 	name: 'peoples',
-	orderBy: {
-		createdAt: 'ASC'
-	}
 })
 export class PeopleEntity implements PeopleInterface {
 	@PrimaryGeneratedColumn()
 	id: number
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	birth_year: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	eye_color: string;
 	
 	@ManyToMany(() => FilmEntity)
@@ -33,31 +30,31 @@ export class PeopleEntity implements PeopleInterface {
 	films: Array<FilmsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	gender: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	hair_color: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	height: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	homeworld: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	mass: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	name: string;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	skin_color: string;
 	
 	@ManyToMany(() => SpecieEntity)
@@ -69,7 +66,7 @@ export class PeopleEntity implements PeopleInterface {
 	starships: Array<StarshipsInterface>;
 	
 	@Expose()
-	@Column()
+	@Column({nullable: true})
 	url: string;
 	
 	@ManyToMany(() => VehicleEntity)
@@ -77,12 +74,12 @@ export class PeopleEntity implements PeopleInterface {
 	vehicles: Array<VehiclesInterface>;
 	
 	@Expose()
-	@Column()
-	created: number;
+	@Column({nullable: true})
+	created: string;
 	
 	@Expose()
-	@Column()
-	edited: number;
+	@Column({nullable: true})
+	edited: string;
 	
 	constructor(people: Partial<PeopleEntity>) {
 		if (people) {
@@ -92,8 +89,8 @@ export class PeopleEntity implements PeopleInterface {
 					excludeExtraneousValues: true
 				})
 			);
-			this.created = this.created || +new Date()
-			this.edited = +new Date()
+			this.created = this.created.toString() || (new Date()).toString()
+			this.edited = (new Date()).toString()
 		}
 	}
 }
