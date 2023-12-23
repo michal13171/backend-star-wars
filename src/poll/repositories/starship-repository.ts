@@ -1,5 +1,5 @@
 import {EntityRepository, Repository} from "typeorm";
-import {StarshipEntity, VehicleEntity} from "@entities";
+import {StarshipEntity} from "@entities";
 
 @EntityRepository(StarshipEntity)
 export class StarshipEntityRepository extends Repository<StarshipEntity> {
