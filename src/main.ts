@@ -7,11 +7,7 @@ import helmet from "helmet";
 import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
-import {FilmSeeder, PeopleSeeder} from "@seeders";
-import {VehicleSeeder} from "./poll/seeders/vehicle-seeder";
-import {StarshipSeeder} from "./poll/seeders/starship-seeder";
-import {SpeciesSeeder} from "./poll/seeders/species-seeder";
-import {PlanetSeeder} from "./poll/seeders/planet-seeder";
+import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
 
 const chalk = require('chalk');
 

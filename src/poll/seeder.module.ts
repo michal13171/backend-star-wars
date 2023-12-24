@@ -1,10 +1,6 @@
 import {Module} from '@nestjs/common';
 import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
-import {FilmSeeder, PeopleSeeder} from "@seeders";
-import {VehicleSeeder} from "./seeders/vehicle-seeder";
-import {StarshipSeeder} from "./seeders/starship-seeder";
-import {SpeciesSeeder} from "./seeders/species-seeder";
-import {PlanetSeeder} from "./seeders/planet-seeder";
+import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
 
 @Module({
 	imports: [
