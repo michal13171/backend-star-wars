@@ -26,7 +26,7 @@ export class FilmEntity implements FilmsInterface {
 	episode_id: number;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, type: "longtext"})
 	opening_crawl: string;
 	
 	@ManyToMany(() => PlanetEntity, (planet) => planet.films, {
