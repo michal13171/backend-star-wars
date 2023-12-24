@@ -3,11 +3,11 @@ import {ConfigModule} from "@nestjs/config";
 import {TypeOrmService} from "./config/typeorm";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UtilsModule} from './poll/utils.module';
-import {AppService} from "./poll/services/app.service";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 import {CacheInterceptor} from "@nestjs/cache-manager";
 import {FilmEntity, PeopleEntity, PlanetEntity, SpecieEntity, StarshipEntity, VehicleEntity} from "@entities";
 import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
+import {AppService} from "@services";
 
 @Module({
 	imports: [

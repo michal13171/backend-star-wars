@@ -1,10 +1,10 @@
 import {Module} from '@nestjs/common';
-import {AppService} from "./services/app.service";
 import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
 import {RedisOptions} from "../config/cache";
 import {ConfigModule} from "@nestjs/config";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 import {AppController} from "@controllers";
+import {AppService} from "@services";
 
 
 @Module({
