@@ -1,6 +1,6 @@
 import {Seeder} from "nestjs-seeder";
 import {Inject, Injectable, Logger} from "@nestjs/common";
-import {PeopleEntity, VehicleEntity} from "@entities";
+import {VehicleEntity} from "@entities";
 import {AppService} from "../services/app.service";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
