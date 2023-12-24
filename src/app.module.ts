@@ -6,11 +6,12 @@ import {UtilsModule} from './poll/utils.module';
 import {AppService} from "./poll/services/app.service";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 import {CacheInterceptor} from "@nestjs/cache-manager";
-import {FilmEntity, PeopleEntity, SpecieEntity, StarshipEntity, VehicleEntity} from "@entities";
+import {FilmEntity, PeopleEntity, PlanetEntity, SpecieEntity, StarshipEntity, VehicleEntity} from "@entities";
 import {FilmSeeder, PeopleSeeder} from "@seeders";
 import {VehicleSeeder} from "./poll/seeders/vehicle-seeder";
 import {StarshipSeeder} from "./poll/seeders/starship-seeder";
 import {SpeciesSeeder} from "./poll/seeders/species-seeder";
+import {PlanetSeeder} from "./poll/seeders/planet-seeder";
 
 @Module({
 	imports: [
@@ -21,7 +22,7 @@ import {SpeciesSeeder} from "./poll/seeders/species-seeder";
 		TypeOrmModule.forRootAsync({
 			useClass: TypeOrmService,
 		}),
-		TypeOrmModule.forFeature([PeopleEntity, FilmEntity, VehicleEntity, StarshipEntity, SpecieEntity])
+		TypeOrmModule.forFeature([PeopleEntity, FilmEntity, VehicleEntity, StarshipEntity, SpecieEntity, PlanetEntity])
 	],
 	providers: [
 		PeopleSeeder,
@@ -29,6 +30,7 @@ import {SpeciesSeeder} from "./poll/seeders/species-seeder";
 		VehicleSeeder,
 		StarshipSeeder,
 		SpeciesSeeder,
+		PlanetSeeder,
 		AppService,
 		{
 			provide: APP_INTERCEPTOR,

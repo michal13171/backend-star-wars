@@ -11,6 +11,7 @@ import {FilmSeeder, PeopleSeeder} from "@seeders";
 import {VehicleSeeder} from "./poll/seeders/vehicle-seeder";
 import {StarshipSeeder} from "./poll/seeders/starship-seeder";
 import {SpeciesSeeder} from "./poll/seeders/species-seeder";
+import {PlanetSeeder} from "./poll/seeders/planet-seeder";
 
 const chalk = require('chalk');
 
@@ -63,6 +64,7 @@ async function bootstrap() {
 		let vehicleSeeder = app.get(VehicleSeeder);
 		let starshipSeeder = app.get(StarshipSeeder);
 		let speciesSeeder = app.get(SpeciesSeeder);
+		let planetSeeder = app.get(PlanetSeeder);
 		
 		peopleSeeder
 			.seed()
@@ -85,6 +87,11 @@ async function bootstrap() {
 			.catch(error => responseErrorSeeders(error));
 		
 		speciesSeeder
+			.seed()
+			.then(responseCompleteSeeders)
+			.catch(error => responseErrorSeeders(error));
+		
+		planetSeeder
 			.seed()
 			.then(responseCompleteSeeders)
 			.catch(error => responseErrorSeeders(error));

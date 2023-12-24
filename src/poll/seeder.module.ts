@@ -4,6 +4,7 @@ import {FilmSeeder, PeopleSeeder} from "@seeders";
 import {VehicleSeeder} from "./seeders/vehicle-seeder";
 import {StarshipSeeder} from "./seeders/starship-seeder";
 import {SpeciesSeeder} from "./seeders/species-seeder";
+import {PlanetSeeder} from "./seeders/planet-seeder";
 
 @Module({
 	imports: [
@@ -15,6 +16,7 @@ import {SpeciesSeeder} from "./seeders/species-seeder";
 		VehicleSeeder,
 		StarshipSeeder,
 		SpeciesSeeder,
+		PlanetSeeder,
 	],
 })
 export class SeederCustomModule {}
