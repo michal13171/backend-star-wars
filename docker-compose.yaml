@@ -21,7 +21,7 @@ services:
     container_name: nestjs_redis
     image: redis:7-bullseye
     ports:
-      - 6379
+      - ${REDIS_PORT}
     volumes:
       - ./tmp/redis_data:/var/lib/redis/data
 
