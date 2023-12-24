@@ -1,12 +1,12 @@
 import {Seeder} from "nestjs-seeder";
 import {Inject, Injectable, Logger} from "@nestjs/common";
 import {FilmEntity} from "@entities";
-import {AppService} from "../services/app.service";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CACHE_MANAGER} from "@nestjs/cache-manager";
 import {Cache} from "cache-manager";
 import {UL_SWAPI} from "@environments";
+import {AppService} from "@services";
 
 @Injectable()
 export class FilmSeeder implements Seeder {
@@ -32,7 +32,10 @@ export class FilmSeeder implements Seeder {
 			
 			Logger.log(storeFilmCacheAndDatabase['results'], 'Bootstrap');
 			
-			await this.filmEntityRepository.upsert(storeFilmCacheAndDatabase['results'], ['title']);
+			await this.filmEntityRepository.upsert(storeFilmCacheAndDatabase['results'], {
+				skipUpdateIfNoValuesChanged: true,
+				conflictPaths: ['title'],
+			});
 			
 			nextPageUrl = storeFilmCacheAndDatabase.next;
 		} while (nextPageUrl !== null);

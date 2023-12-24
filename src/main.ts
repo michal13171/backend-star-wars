@@ -45,16 +45,7 @@ async function bootstrap() {
 					'⚠️  Too many request created from this IP, please try again after an hour'
 			})
 		)
-		
-		await app.listen(PORT);
-		
-		Logger.log(
-			`🚀  Server is listening on port ${chalk
-				.hex(PRIMARY_COLOR)
-				.bold(PORT.toString())}`,
-			'Bootstrap'
-		)
-		
+
 		let peopleSeeder = app.get(PeopleSeeder);
 		let filmSeeder = app.get(FilmSeeder);
 		let vehicleSeeder = app.get(VehicleSeeder);
@@ -66,7 +57,7 @@ async function bootstrap() {
 			.seed()
 			.then(responseCompleteSeeders)
 			.catch(error => responseErrorSeeders(error));
-		
+
 		filmSeeder
 			.seed()
 			.then(responseCompleteSeeders)
@@ -91,6 +82,15 @@ async function bootstrap() {
 			.seed()
 			.then(responseCompleteSeeders)
 			.catch(error => responseErrorSeeders(error));
+		
+		await app.listen(PORT);
+		
+		Logger.log(
+			`🚀  Server is listening on port ${chalk
+				.hex(PRIMARY_COLOR)
+				.bold(PORT.toString())}`,
+			'Bootstrap'
+		)
 		
 	} catch (e) {
 		Logger.error(`❌  Error starting server, ${e}`, '', 'Bootstrap')

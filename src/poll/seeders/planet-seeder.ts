@@ -1,12 +1,12 @@
 import {Seeder} from "nestjs-seeder";
 import {Inject, Injectable, Logger} from "@nestjs/common";
 import {PlanetEntity} from "@entities";
-import {AppService} from "../services/app.service";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CACHE_MANAGER} from "@nestjs/cache-manager";
 import {Cache} from "cache-manager";
 import {UL_SWAPI} from "@environments";
+import {AppService} from "@services";
 
 @Injectable()
 export class PlanetSeeder implements Seeder {
@@ -32,7 +32,10 @@ export class PlanetSeeder implements Seeder {
 			
 			Logger.log(storePlanetsCacheAndDatabase['results'], 'Bootstrap');
 			
-			await this.planetEntityRepository.upsert(storePlanetsCacheAndDatabase['results'], ['name']);
+			await this.planetEntityRepository.upsert(storePlanetsCacheAndDatabase['results'], {
+				skipUpdateIfNoValuesChanged: true,
+				conflictPaths: ['name'],
+			});
 			
 			nextPageUrl = storePlanetsCacheAndDatabase.next;
 		} while (nextPageUrl !== null);

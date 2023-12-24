@@ -1,12 +1,12 @@
 import {Seeder} from "nestjs-seeder";
 import {Inject, Injectable, Logger} from "@nestjs/common";
 import {VehicleEntity} from "@entities";
-import {AppService} from "../services/app.service";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CACHE_MANAGER} from "@nestjs/cache-manager";
 import {Cache} from "cache-manager";
 import {UL_SWAPI} from "@environments";
+import {AppService} from "@services";
 
 @Injectable()
 export class VehicleSeeder implements Seeder {
@@ -32,7 +32,10 @@ export class VehicleSeeder implements Seeder {
 			
 			Logger.log(storeVehiclesCacheAndDatabase['results'], 'Bootstrap');
 			
-			await this.vehicleEntityRepository.upsert(storeVehiclesCacheAndDatabase['results'], ['name']);
+			await this.vehicleEntityRepository.upsert(storeVehiclesCacheAndDatabase['results'], {
+				skipUpdateIfNoValuesChanged: true,
+				conflictPaths: ['name'],
+			});
 			
 			nextPageUrl = storeVehiclesCacheAndDatabase.next;
 		} while (nextPageUrl !== null);

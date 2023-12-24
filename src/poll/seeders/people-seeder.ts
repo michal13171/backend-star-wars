@@ -1,12 +1,12 @@
 import {Seeder} from "nestjs-seeder";
 import {Inject, Injectable, Logger} from "@nestjs/common";
 import {PeopleEntity} from "@entities";
-import {AppService} from "../services/app.service";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CACHE_MANAGER} from "@nestjs/cache-manager";
 import {Cache} from "cache-manager";
 import {UL_SWAPI} from "@environments";
+import {AppService} from "@services";
 
 @Injectable()
 export class PeopleSeeder implements Seeder {
@@ -32,7 +32,10 @@ export class PeopleSeeder implements Seeder {
 			
 			Logger.log(storePeopleCacheAndDatabase['results'], 'Bootstrap');
 			
-			await this.peopleEntityRepository.upsert(storePeopleCacheAndDatabase['results'], ['name']);
+			await this.peopleEntityRepository.upsert(storePeopleCacheAndDatabase['results'], {
+				skipUpdateIfNoValuesChanged: true,
+				conflictPaths: ['name'],
+			});
 			
 			nextPageUrl = storePeopleCacheAndDatabase.next;
 		} while (nextPageUrl !== null);
