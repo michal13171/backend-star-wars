@@ -9,6 +9,7 @@ import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
 import {FilmSeeder, PeopleSeeder} from "@seeders";
 import {VehicleSeeder} from "./poll/seeders/vehicle-seeder";
+import {StarshipSeeder} from "./poll/seeders/starship-seeder";
 
 const chalk = require('chalk');
 
@@ -59,6 +60,7 @@ async function bootstrap() {
 		let peopleSeeder = app.get(PeopleSeeder);
 		let filmSeeder = app.get(FilmSeeder);
 		let vehicleSeeder = app.get(VehicleSeeder);
+		let starshipSeeder = app.get(StarshipSeeder);
 		
 		peopleSeeder
 			.seed()
@@ -71,6 +73,11 @@ async function bootstrap() {
 			.catch(error => responseErrorSeeders(error));
 		
 		vehicleSeeder
+			.seed()
+			.then(responseCompleteSeeders)
+			.catch(error => responseErrorSeeders(error));
+		
+		starshipSeeder
 			.seed()
 			.then(responseCompleteSeeders)
 			.catch(error => responseErrorSeeders(error));
