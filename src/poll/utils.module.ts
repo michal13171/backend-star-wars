@@ -3,7 +3,15 @@ import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
 import {RedisOptions} from "../config/cache";
 import {ConfigModule} from "@nestjs/config";
 import {APP_INTERCEPTOR} from "@nestjs/core";
-import {AppController} from "@controllers";
+import {
+	AppController,
+	FilmController,
+	PeopleController,
+	PlanetController,
+	SpeciesController,
+	StarshipController,
+	VehicleController
+} from "@controllers";
 import {
 	AppService,
 	FilmService,
@@ -15,9 +23,17 @@ import {
 } from "@services";
 
 @Module({
-	controllers: [AppController],
+	controllers: [
+		AppController,
+		PlanetController,
+		VehicleController,
+		FilmController,
+		SpeciesController,
+		StarshipController,
+		PeopleController
+	],
 	imports: [
-		ConfigModule.forRoot({ isGlobal: true }),
+		ConfigModule.forRoot({isGlobal: true}),
 		CacheModule.registerAsync(RedisOptions),
 	],
 	providers: [
