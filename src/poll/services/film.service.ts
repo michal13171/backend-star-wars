@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {FilmEntity} from "@entities";
 import {Repository} from "typeorm";
@@ -10,6 +10,14 @@ export class FilmService {
 		@InjectRepository(FilmEntity) private entityRepository: Repository<FilmEntity>,
 	) {}
 	
+	getAllFilmListings() {
+		return this.entityRepository.find({
+			relations: {
+				characters: true
+			}
+		});
+	}
+	
 	async getAllFilms(paginationDto: PaginationDto) {
 		const {page, pageSize} = paginationDto;
 		const skip = (page - 1) * pageSize;
@@ -18,21 +26,18 @@ export class FilmService {
 			take: pageSize,
 			skip: skip,
 			relations: {
-				vehicles: true,
-				starships: true,
-				species: true,
-				planets: true,
+				characters: true
 			},
 		});
 		
-		const wordOccurrences: Record<string, any> = {};
+		const wordOccurrences: Record<string, number> = {};
+		const characterOccurrences: Record<string, number> = {};
+		Logger.log(films)
 		
 		films.forEach((film) => {
-			const findUniqueWords  =/\s+([ \t\r\n]+)\s*/;
+			const findUniqueWords = /\s+([ \t\r\n]+)\s*/;
 			const openings = film.opening_crawl.split(findUniqueWords);
 			const input = "   \t\r\n  ";
-			
-			film.characters.map((value, idk) => wordOccurrences['characters'] = { name: value.name, id: value.name.trim().split("").length})
 			
 			if (findUniqueWords.test(input)) {
 				openings.forEach((word) => {
@@ -41,12 +46,26 @@ export class FilmService {
 					}
 				});
 			}
+			
+			Logger.log(film.characters)
+			film.characters.forEach((character) => {
+				const characterName = character.name.trim();
+				characterOccurrences[characterName] = (characterOccurrences[characterName] || 0) + 1;
+			});
 		});
 		
-		return Object.entries(wordOccurrences).map(([word, count]) => ({
-			word,
-			count,
-		}));
+		const maxOccurrences = Math.max(...Object.values(characterOccurrences));
+		const mostFrequentCharacters = Object.keys(characterOccurrences).filter(
+			(character) => characterOccurrences[character] === maxOccurrences
+		);
+		
+		return {
+			wordOccurrences: Object.entries(wordOccurrences).map(([word, count]) => ({
+				word,
+				count,
+			})),
+			mostFrequentCharacters,
+		};
 	}
 	
 	getFilm(idk: number) {
@@ -58,7 +77,8 @@ export class FilmService {
 				vehicles: true,
 				starships: true,
 				species: true,
-				planets: true
+				planets: true,
+				characters: true,
 			}
 		});
 	}

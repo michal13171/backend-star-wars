@@ -25,6 +25,7 @@ import {RedisOptions} from "../config/cache";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
 import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
+import {FilmRelationPeopleSeeder} from "./seeders/film-relation-people-seeder";
 
 @Module({
 	controllers: [
@@ -63,11 +64,12 @@ import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
 		StarshipService,
 		PlanetService,
 		PeopleSeeder,
-		FilmSeeder,
 		VehicleSeeder,
 		StarshipSeeder,
 		SpeciesSeeder,
 		PlanetSeeder,
+		FilmSeeder,
+		FilmRelationPeopleSeeder,
 	],
 	exports: [
 		UtilsModule

@@ -37,7 +37,7 @@ export class PlanetEntity implements PlanetsInterface {
 	gravity: string;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	@ApiProperty({description: 'The name of the Planet'})
 	name: string;
 	

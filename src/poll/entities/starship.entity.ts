@@ -72,7 +72,7 @@ export class StarshipEntity implements StarshipsInterface {
 	model: string;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	@ApiProperty({description: 'The name of the Starship'})
 	name: string;
 	

@@ -30,11 +30,12 @@ export class FilmSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storeFilmCacheAndDatabase['results']);
 			
-			Logger.log(storeFilmCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storeFilmCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.filmEntityRepository.upsert(storeFilmCacheAndDatabase['results'], {
-				skipUpdateIfNoValuesChanged: true,
 				conflictPaths: ['title'],
+				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update'
 			});
 			
 			nextPageUrl = storeFilmCacheAndDatabase.next;

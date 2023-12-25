@@ -55,7 +55,7 @@ export class PeopleEntity implements PeopleInterface {
 	mass: string;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	@ApiProperty({description: 'The name of the People'})
 	name: string;
 	

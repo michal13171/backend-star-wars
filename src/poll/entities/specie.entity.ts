@@ -64,7 +64,7 @@ export class SpecieEntity implements SpeciesInterface {
 	language: string;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	@ApiProperty({description: 'The name of the Species'})
 	name: string;
 	

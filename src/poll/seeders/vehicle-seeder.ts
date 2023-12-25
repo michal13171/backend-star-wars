@@ -30,10 +30,11 @@ export class VehicleSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storeVehiclesCacheAndDatabase['results']);
 			
-			Logger.log(storeVehiclesCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storeVehiclesCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.vehicleEntityRepository.upsert(storeVehiclesCacheAndDatabase['results'], {
 				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update',
 				conflictPaths: ['name'],
 			});
 			

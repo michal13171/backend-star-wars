@@ -30,10 +30,11 @@ export class PeopleSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storePeopleCacheAndDatabase['results']);
 			
-			Logger.log(storePeopleCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storePeopleCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.peopleEntityRepository.upsert(storePeopleCacheAndDatabase['results'], {
 				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update',
 				conflictPaths: ['name'],
 			});
 			

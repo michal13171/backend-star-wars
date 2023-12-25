@@ -30,10 +30,11 @@ export class PlanetSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storePlanetsCacheAndDatabase['results']);
 			
-			Logger.log(storePlanetsCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storePlanetsCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.planetEntityRepository.upsert(storePlanetsCacheAndDatabase['results'], {
 				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update',
 				conflictPaths: ['name'],
 			});
 			

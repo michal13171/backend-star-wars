@@ -30,10 +30,11 @@ export class SpeciesSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storeSpeciesCacheAndDatabase['results']);
 			
-			Logger.log(storeSpeciesCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storeSpeciesCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.specieEntityRepository.upsert(storeSpeciesCacheAndDatabase['results'], {
 				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update',
 				conflictPaths: ['name'],
 			});
 			

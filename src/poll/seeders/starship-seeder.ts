@@ -30,10 +30,11 @@ export class StarshipSeeder implements Seeder {
 			
 			await this.cacheManager.set(cacheKey, storeStarshipsCacheAndDatabase['results']);
 			
-			Logger.log(storeStarshipsCacheAndDatabase['results'], 'Bootstrap');
+			Logger.log(storeStarshipsCacheAndDatabase['results'].length, 'Bootstrap');
 			
 			await this.starshipEntityRepository.upsert(storeStarshipsCacheAndDatabase['results'], {
 				skipUpdateIfNoValuesChanged: true,
+				upsertType: 'on-duplicate-key-update',
 				conflictPaths: ['name'],
 			});
 			

@@ -62,7 +62,7 @@ export class VehicleEntity implements VehiclesInterface {
 	model: string;
 	
 	@Expose()
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	@ApiProperty({description: 'The name of the Vehicle'})
 	name: string;
 	

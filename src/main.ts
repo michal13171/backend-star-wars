@@ -9,6 +9,7 @@ import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
 import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {FilmRelationPeopleSeeder} from "./poll/seeders/film-relation-people-seeder";
 
 const chalk = require('chalk');
 
@@ -55,42 +56,25 @@ async function bootstrap() {
 		const document = SwaggerModule.createDocument(app, config);
 		SwaggerModule.setup('api', app, document);
 		
-		let peopleSeeder = app.get(PeopleSeeder);
-		let filmSeeder = app.get(FilmSeeder);
-		let vehicleSeeder = app.get(VehicleSeeder);
-		let starshipSeeder = app.get(StarshipSeeder);
-		let speciesSeeder = app.get(SpeciesSeeder);
-		let planetSeeder = app.get(PlanetSeeder);
+		const seeders = [
+			app.get(PeopleSeeder),
+			app.get(VehicleSeeder),
+			app.get(StarshipSeeder),
+			app.get(SpeciesSeeder),
+			app.get(PlanetSeeder),
+			app.get(FilmSeeder),
+			app.get(FilmRelationPeopleSeeder),
+		];
 		
-		peopleSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
-
-		filmSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
+		const executeSeeder = (seeder) =>
+			seeder
+				.seed()
+				.then(responseCompleteSeeders)
+				.catch((error) => responseErrorSeeders(error));
 		
-		vehicleSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
-		
-		starshipSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
-		
-		speciesSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
-		
-		planetSeeder
-			.seed()
-			.then(responseCompleteSeeders)
-			.catch(error => responseErrorSeeders(error));
+		Promise.all(seeders.map(executeSeeder))
+			.then(() => console.log('All seeders completed successfully'))
+			.catch((error) => console.error('Error in one or more seeders:', error));
 		
 		await app.listen(PORT);
 		

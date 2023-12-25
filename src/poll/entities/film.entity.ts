@@ -83,7 +83,7 @@ export class FilmEntity implements FilmsInterface {
 	
 	@Expose()
 	@ApiProperty({ description: 'The title name of the Film' })
-	@Column({nullable: true})
+	@Column({nullable: true, unique: true})
 	title: string;
 	
 	@Expose()
