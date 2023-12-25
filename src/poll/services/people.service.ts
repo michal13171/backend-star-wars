@@ -31,6 +31,12 @@ export class PeopleService {
 		return this.entityRepository.findOne({
 			where: {
 				id: idk
+			},
+			relations: {
+				films: true,
+				vehicles: true,
+				starships: true,
+				species: true,
 			}
 		});
 	}

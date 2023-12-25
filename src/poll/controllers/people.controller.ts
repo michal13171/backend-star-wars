@@ -5,7 +5,7 @@ import {PaginationDto} from "../dto/pagination.dto";
 import {CacheInterceptor} from "@nestjs/cache-manager";
 import {CacheKey} from "@nestjs/common/cache";
 
-@Controller('people')
+@Controller('peoples')
 export class PeopleController {
 	constructor(private peopleService: PeopleService) {}
 	
