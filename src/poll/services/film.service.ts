@@ -34,7 +34,7 @@ export class FilmService {
 
 			if (findUniqueWords.test(input)) {
 				openings.forEach((word) => {
-					if (word.trim() !== '') {
+					if (word) {
 						wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
 					}
 				});
