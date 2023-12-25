@@ -20,7 +20,6 @@
     "paths": {
       "@controllers": ["src/poll/controllers"],
       "@services": ["src/poll/services"],
-      "@repositories": ["src/poll/repositories"],
       "@auth": ["src/auth"],
       "@common": ["src/common"],
       "@config": ["src/config"],

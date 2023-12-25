@@ -1,8 +1,4 @@
 import {Module} from '@nestjs/common';
-import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
-import {RedisOptions} from "../config/cache";
-import {ConfigModule} from "@nestjs/config";
-import {APP_INTERCEPTOR} from "@nestjs/core";
 import {
 	AppController,
 	FilmController,
@@ -12,6 +8,7 @@ import {
 	StarshipController,
 	VehicleController
 } from "@controllers";
+import {Repository} from "typeorm";
 import {
 	AppService,
 	FilmService,
@@ -21,6 +18,13 @@ import {
 	StarshipService,
 	VehicleService
 } from "@services";
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {FilmEntity, PeopleEntity, PlanetEntity, SpecieEntity, StarshipEntity, VehicleEntity} from "@entities";
+import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
+import {RedisOptions} from "../config/cache";
+import {APP_INTERCEPTOR} from "@nestjs/core";
+import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
+import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
 
 @Module({
 	controllers: [
@@ -32,11 +36,21 @@ import {
 		StarshipController,
 		PeopleController
 	],
-	imports: [
-		ConfigModule.forRoot({isGlobal: true}),
-		CacheModule.registerAsync(RedisOptions),
-	],
+	imports:
+		[
+			SeederModule,
+			TypeOrmModule.forFeature([
+				PeopleEntity,
+				FilmEntity,
+				VehicleEntity,
+				StarshipEntity,
+				SpecieEntity,
+				PlanetEntity,
+			]),
+			CacheModule.registerAsync(RedisOptions),
+		],
 	providers: [
+		Repository,
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: CacheInterceptor,
@@ -48,7 +62,15 @@ import {
 		FilmService,
 		StarshipService,
 		PlanetService,
+		PeopleSeeder,
+		FilmSeeder,
+		VehicleSeeder,
+		StarshipSeeder,
+		SpeciesSeeder,
+		PlanetSeeder,
 	],
-	exports: [UtilsModule],
+	exports: [
+		UtilsModule
+	]
 })
 export class UtilsModule {}
