@@ -8,6 +8,7 @@ import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
 import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
+import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 
 const chalk = require('chalk');
 
@@ -45,7 +46,16 @@ async function bootstrap() {
 					'⚠️  Too many request created from this IP, please try again after an hour'
 			})
 		)
-
+		
+		const config = new DocumentBuilder()
+			.setTitle('Star wars API')
+			.setDescription('The star wars API description')
+			.setVersion('1.0')
+			.addTag('Star wars')
+			.build();
+		const document = SwaggerModule.createDocument(app, config);
+		SwaggerModule.setup('api', app, document);
+		
 		let peopleSeeder = app.get(PeopleSeeder);
 		let filmSeeder = app.get(FilmSeeder);
 		let vehicleSeeder = app.get(VehicleSeeder);

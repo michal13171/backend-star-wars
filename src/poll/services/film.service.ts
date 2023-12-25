@@ -25,13 +25,15 @@ export class FilmService {
 			},
 		});
 		
-		const wordOccurrences: Record<string, number> = {};
+		const wordOccurrences: Record<string, any> = {};
 		
 		films.forEach((film) => {
 			const findUniqueWords  =/\s+([ \t\r\n]+)\s*/;
 			const openings = film.opening_crawl.split(findUniqueWords);
 			const input = "   \t\r\n  ";
-
+			
+			film.characters.map((value, idk) => wordOccurrences['characters'] = { name: value.name, id: value.name.trim().split("").length})
+			
 			if (findUniqueWords.test(input)) {
 				openings.forEach((word) => {
 					if (word) {
