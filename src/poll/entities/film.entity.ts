@@ -9,6 +9,8 @@ import {PlanetsInterface} from "../interfaces/planets.interface";
 import {SpeciesInterface} from "../interfaces/species.interface";
 import {StarshipsInterface} from "../interfaces/starships.interface";
 import {VehiclesInterface} from "../interfaces/vehicles.interface";
+import {PeopleInterface} from "../interfaces/people.interface";
+import {PeopleEntity} from "./people.entity";
 
 @Entity({
 	name: 'films',
@@ -50,6 +52,13 @@ export class FilmEntity implements FilmsInterface {
 	})
 	@JoinTable()
 	species: Array<SpeciesInterface>;
+	
+	@ManyToMany(() => PeopleEntity, (people) => people.films, {
+		cascade: false,
+		nullable: true
+	})
+	@JoinTable()
+	characters: Array<PeopleInterface>;
 	
 	@ManyToMany(() => StarshipEntity, (starship) => starship.films, {
 		cascade: false,
