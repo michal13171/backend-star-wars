@@ -7,9 +7,16 @@ import helmet from "helmet";
 import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
-import {FilmSeeder, PeopleSeeder, PlanetSeeder, SpeciesSeeder, StarshipSeeder, VehicleSeeder} from "@seeders";
+import {
+	FilmRelationPeopleSeeder,
+	FilmSeeder,
+	PeopleSeeder,
+	PlanetSeeder,
+	SpeciesSeeder,
+	StarshipSeeder,
+	VehicleSeeder
+} from "@seeders";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {FilmRelationPeopleSeeder} from "./poll/seeders/film-relation-people-seeder";
 
 const chalk = require('chalk');
 

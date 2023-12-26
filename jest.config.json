@@ -1,0 +1,21 @@
+{
+	"moduleDirectories": ["node_modules", "src"],
+	"moduleFileExtensions": ["js", "json", "ts"],
+	"testEnvironment": "node",
+	"testRegex": ".spec.ts$",
+	"transform": {
+		"^.+\\.ts$": "ts-jest"
+	},
+	"coverageDirectory": "./coverage",
+	"collectCoverage": true,
+	"moduleNameMapper": {
+		"@controllers": ["<rootDir>/src/poll/controllers"],
+		"@services": ["<rootDir>/src/poll/services"],
+		"@auth": ["<rootDir>/src/auth"],
+		"@common": ["<rootDir>/src/common"],
+		"@config": ["<rootDir>/src/config"],
+		"@environments": ["<rootDir>/src/config/environments"],
+		"@entities": ["<rootDir>/src/poll/entities"],
+		"@seeders": ["<rootDir>/src/poll/seeders"]
+	}
+}

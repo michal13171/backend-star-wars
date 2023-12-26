@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@nestjs/common";
+import {Inject, Injectable, Logger} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {FilmEntity, PeopleEntity} from "@entities";
 import {Repository} from "typeorm";
@@ -40,6 +40,7 @@ export class FilmRelationPeopleSeeder {
 			filmEntities.push(filmEntity);
 		}
 		await this.cacheManager.set(cacheKey, filmEntities);
+		Logger.log(filmEntities, 'Bootstrap');
 		
 		await this.filmEntityRepository.save(filmEntities);
 		

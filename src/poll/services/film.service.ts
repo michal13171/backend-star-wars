@@ -32,7 +32,6 @@ export class FilmService {
 		
 		const wordOccurrences: Record<string, number> = {};
 		const characterOccurrences: Record<string, number> = {};
-		Logger.log(films)
 		
 		films.forEach((film) => {
 			const findUniqueWords = /\s+([ \t\r\n]+)\s*/;
@@ -47,12 +46,15 @@ export class FilmService {
 				});
 			}
 			
-			Logger.log(film.characters)
-			film.characters.forEach((character) => {
-				const characterName = character.name.trim();
-				characterOccurrences[characterName] = (characterOccurrences[characterName] || 0) + 1;
-			});
+			if (film.characters.length > 0){
+				film.characters.forEach((character) => {
+					const characterName = character.name.trim();
+					Logger.debug(characterName)
+					characterOccurrences[characterName] = (characterOccurrences[characterName] || 0) + 1;
+				});
+			}
 		});
+		Logger.debug(characterOccurrences)
 		
 		const maxOccurrences = Math.max(...Object.values(characterOccurrences));
 		const mostFrequentCharacters = Object.keys(characterOccurrences).filter(
@@ -76,7 +78,6 @@ export class FilmService {
 			relations: {
 				vehicles: true,
 				starships: true,
-				species: true,
 				planets: true,
 				characters: true,
 			}
