@@ -24,7 +24,6 @@ import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
 import {RedisOptions} from "../config/cache";
 import {APP_INTERCEPTOR} from "@nestjs/core";
 import {
-	FilmRelationPeopleSeeder,
 	FilmSeeder,
 	PeopleSeeder,
 	PlanetSeeder,
@@ -76,7 +75,6 @@ import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
 		SpeciesSeeder,
 		PlanetSeeder,
 		FilmSeeder,
-		FilmRelationPeopleSeeder,
 	],
 	exports: [
 		UtilsModule

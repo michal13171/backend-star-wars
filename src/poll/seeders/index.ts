@@ -4,4 +4,3 @@ export * from './planet-seeder';
 export * from './species-seeder';
 export * from './vehicle-seeder';
 export * from './starship-seeder';
-export * from './film-relation-people-seeder';

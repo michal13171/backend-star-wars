@@ -8,7 +8,6 @@ import * as bodyParser from 'body-parser'
 import rateLimit from "express-rate-limit";
 import {PORT, PRIMARY_COLOR, RATE_LIMIT_MAX} from "@environments";
 import {
-	FilmRelationPeopleSeeder,
 	FilmSeeder,
 	PeopleSeeder,
 	PlanetSeeder,
@@ -70,7 +69,6 @@ async function bootstrap() {
 			app.get(SpeciesSeeder),
 			app.get(PlanetSeeder),
 			app.get(FilmSeeder),
-			app.get(FilmRelationPeopleSeeder),
 		];
 		
 		const executeSeeder = (seeder) =>
