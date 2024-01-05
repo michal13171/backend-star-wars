@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Add the source code to app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 # Rebuild all bcrypt with build-from-source
 RUN npm rebuild bcrypt --build-from-source
