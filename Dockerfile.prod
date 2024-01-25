@@ -1,27 +1,18 @@
 # Stage 1: Compile and Build nestjs
+FROM node:20.5.0-bullseye as build
 
-# Use official node image as the base image
-FROM node:18.16.1-bullseye as build
+WORKDIR /app
 
-# Set the working directory
-WORKDIR /usr/local/app
+COPY package*.json ./
 
-# Add the source code to app
-COPY ./ /usr/local/app/
+RUN npm ci
 
-# Output dir for app build
+RUN npm rebuild bcrypt --build-from-source
+
+COPY . .
+
 RUN mkdir -p dist
 
-# Install all the dependencies
-RUN npm install
+EXPOSE 3000
 
-# Generate the build of the application
-RUN npm run build:prod
-
-# Stage 2: Serve app with nginx server
-
-# Use official nginx image as the base image
-FROM nginx:1.21.6
-
-# Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist /usr/share/nginx/html
+CMD ["npm", "run", "start:prod"]
