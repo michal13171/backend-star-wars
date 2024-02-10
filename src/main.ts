@@ -1,50 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MyLogger } from './config/logger';
 import { Logger } from '@nestjs/common';
-import * as compression from 'compression';
-import helmet from 'helmet';
-import * as bodyParser from 'body-parser';
-import rateLimit from 'express-rate-limit';
-import { PORT, PRIMARY_COLOR, RATE_LIMIT_MAX } from '@environments';
+import { PORT, REDIS } from '@environments';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
-const chalk = require('chalk');
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger: new MyLogger(),
+    const app = await NestFactory.create(AppModule);
+
+    await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+      transport: Transport.REDIS,
+      options: REDIS,
     });
-
-    // NOTE: adapter for e2e testing
-    app.getHttpAdapter();
-
-    // NOTE: compression
-    app.use(compression());
-
-    // NOTE: added security
-    app.use(helmet());
-
-    // NOTE: body parser
-    app.use(bodyParser.json({ limit: '50mb' }));
-    app.use(
-      bodyParser.urlencoded({
-        limit: '50mb',
-        extended: true,
-        parameterLimit: 50000,
-      }),
-    );
-
-    // NOTE: rateLimit
-    app.use(
-      rateLimit({
-        windowMs: 1000 * 60 * 60, // an hour
-        max: RATE_LIMIT_MAX, // limit each IP to 100 requests per windowMs
-        message:
-          '⚠️  Too many request created from this IP, please try again after an hour',
-      }),
-    );
 
     const config = new DocumentBuilder()
       .setTitle('Star wars API')
@@ -54,14 +22,8 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
 
+    await app.startAllMicroservices();
     await app.listen(PORT);
-
-    Logger.log(
-      `🚀  Server is listening on port ${chalk
-        .hex(PRIMARY_COLOR)
-        .bold(PORT.toString())}`,
-      'Bootstrap',
-    );
   } catch (e) {
     Logger.error(`❌  Error starting server, ${e}`, '', 'Bootstrap');
     process.exit();
