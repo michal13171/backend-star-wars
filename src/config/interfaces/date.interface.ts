@@ -1,4 +1,4 @@
 export interface Date {
-	created: string,
-	edited: string,
+  created: string;
+  edited: string;
 }
