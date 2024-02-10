@@ -1,6 +1,6 @@
-import { Date } from './date.interface';
-import { PeopleInterface } from '../people/interfaces/people.interface';
-import { FilmsInterface } from './films.interface';
+import { Date } from '../../../config/interfaces/date.interface';
+import { PeopleInterface } from '../../people/interfaces/people.interface';
+import { FilmsInterface } from '../../film/interfaces/films.interface';
 
 export interface SpeciesInterface extends Date {
   name: string;

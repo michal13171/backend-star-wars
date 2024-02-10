@@ -1,8 +1,8 @@
 import { Date } from '../../../config/interfaces/date.interface';
-import { FilmsInterface } from '../../interfaces/films.interface';
-import { SpeciesInterface } from '../../interfaces/species.interface';
-import { VehiclesInterface } from '../../interfaces/vehicles.interface';
-import { StarshipsInterface } from '../../interfaces/starships.interface';
+import { FilmsInterface } from '../../film/interfaces/films.interface';
+import { SpeciesInterface } from '../../species/interfaces/species.interface';
+import { VehiclesInterface } from '../../vehicle/interfaces/vehicles.interface';
+import { StarshipsInterface } from '../../starship/interfaces/starships.interface';
 
 export interface PeopleInterface extends Date {
   name: string;
