@@ -69,11 +69,16 @@ export class FilmService {
     const maxOccurrences = Math.max(
       ...Object.values(this.characterOccurrences),
     );
+
+    this.logger.log(`73 line code: ${maxOccurrences}`);
+
     const mostFrequentCharacters = Object.keys(
       this.characterOccurrences,
     ).filter(
       (character) => this.characterOccurrences[character] === maxOccurrences,
     );
+    this.logger.log(`80 line code: ${mostFrequentCharacters}`);
+    this.logger.log(`81 line code: ${this.wordOccurrences}`);
 
     const payload = {
       wordOccurrences: Object.entries(this.wordOccurrences).map(([word]) => {
