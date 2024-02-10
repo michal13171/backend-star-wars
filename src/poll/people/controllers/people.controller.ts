@@ -12,6 +12,7 @@ import { PaginationDto } from '../../../config/dto/pagination.dto';
 import { PeopleInterface } from '../interfaces/people.interface';
 import { MessagePattern } from '@nestjs/microservices';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { PaginationInterface } from '../../../config/interfaces/pagination.interface';
 
 @UseInterceptors(CacheInterceptor)
 @ApiTags('peoples')
@@ -32,7 +33,7 @@ export class PeopleController {
   })
   getAllPeople(
     @Query() paginationDto: PaginationDto,
-  ): Promise<PeopleInterface[]> {
+  ): Promise<PaginationInterface<PeopleInterface[]>> {
     return this.peopleService.getAllPeople(paginationDto);
   }
 

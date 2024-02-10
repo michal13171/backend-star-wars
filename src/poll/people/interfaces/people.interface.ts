@@ -1,4 +1,4 @@
-import { Date } from '../../interfaces/date.interface';
+import { Date } from '../../../config/interfaces/date.interface';
 import { FilmsInterface } from '../../interfaces/films.interface';
 import { SpeciesInterface } from '../../interfaces/species.interface';
 import { VehiclesInterface } from '../../interfaces/vehicles.interface';
