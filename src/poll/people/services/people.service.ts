@@ -1,39 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { PaginationDto } from '../../../config/dto/pagination.dto';
+import { AppService } from '../../../config/services/app.service';
+import { UL_SWAPI } from '@environments';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class PeopleService {
-  // constructor(
-  //   @InjectRepository(PeopleEntity)
-  //   private entityRepository: Repository<PeopleEntity>,
-  // ) {}
-  //
-  // getAllPeople(paginationDto: PaginationDto) {
-  //   const { page, pageSize } = paginationDto;
-  //   const skip = (page - 1) * pageSize;
-  //
-  //   return this.entityRepository.find({
-  //     take: pageSize,
-  //     skip: skip,
-  //     relations: {
-  //       films: true,
-  //       vehicles: true,
-  //       starships: true,
-  //       species: true,
-  //     },
-  //   });
-  // }
-  //
-  // getPeople(idk: number) {
-  //   return this.entityRepository.findOne({
-  //     where: {
-  //       id: idk,
-  //     },
-  //     relations: {
-  //       films: true,
-  //       vehicles: true,
-  //       starships: true,
-  //       species: true,
-  //     },
-  //   });
-  // }
+  constructor(
+    @Inject(AppService) private appService: AppService,
+    @Inject('GLOBAL_PEOPLE_SERVICE') private client: ClientProxy,
+  ) {}
+
+  async getAllPeople(paginationDto: PaginationDto) {
+    const pattern = { cmd: 'people_listing' };
+    const payload = this.appService.fetchData(
+      `${UL_SWAPI}/people`,
+      paginationDto,
+    );
+    this.client.send(pattern, payload);
+
+    return payload;
+  }
+
+  async getPeople(idk: number) {
+    const pattern = { cmd: `people_${idk}` };
+    const payload = this.appService.fetchData(`${UL_SWAPI}/people/${idk}`);
+    this.client.send(pattern, payload);
+
+    return payload;
+  }
 }
