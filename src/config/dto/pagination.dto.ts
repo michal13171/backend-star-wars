@@ -4,8 +4,4 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   page: number;
-
-  @IsInt()
-  @Min(1)
-  pageSize: number;
 }
