@@ -38,9 +38,9 @@ export class FilmService {
     films: FilmsInterface[],
   ) {
     for (let i = 0; i < films.length; i++) {
-      this.logger.log(films[i]);
+      this.logger.log(`41 line code: ${films[i]['title']}`);
       const findUniqueWords = /\s+([ \t\r\n]+)\s*/;
-      const openings = films[i].opening_crawl.split(findUniqueWords);
+      const openings = films[i]['opening_crawl'].split(findUniqueWords);
       const input = '   \t\r\n  ';
 
       if (findUniqueWords.test(input)) {
@@ -51,17 +51,20 @@ export class FilmService {
         });
       }
 
-      if (films[i].characters.length > 0) {
-        films[i].characters.forEach((character) => {
-          const characterName = character.name;
-          this.logger.debug(characterName);
-          this.characterOccurrences[characterName] =
-            (this.characterOccurrences[characterName] || 0) + 1;
+      if (films[i]['characters'].length > 0) {
+        films[i]['characters'].forEach((data: any) => {
+          this.logger.debug(`56 line code: ${this.appService.fetchData(data)}`);
+          this.appService.fetchData(data).then((character) => {
+            const characterName = character['name'];
+            this.logger.debug(`59 line code: ${characterName}`);
+            this.characterOccurrences[characterName] =
+              (this.characterOccurrences[characterName] || 0) + 1;
+          });
         });
       }
     }
 
-    this.logger.debug(this.characterOccurrences);
+    this.logger.debug(`67 line code: ${this.characterOccurrences}`);
 
     const maxOccurrences = Math.max(
       ...Object.values(this.characterOccurrences),
