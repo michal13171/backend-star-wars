@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationDto } from '../../../config/dto/pagination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SpecieEntity } from '@entities';
+import { PeopleEntity } from '@entities';
 import { Repository } from 'typeorm';
-import { PaginationDto } from '../../config/dto/pagination.dto';
 
 @Injectable()
-export class SpeciesService {
+export class PeopleService {
   constructor(
-    @InjectRepository(SpecieEntity)
-    private entityRepository: Repository<SpecieEntity>,
+    @InjectRepository(PeopleEntity)
+    private entityRepository: Repository<PeopleEntity>,
   ) {}
 
-  getAllSpecies(paginationDto: PaginationDto) {
+  getAllPeople(paginationDto: PaginationDto) {
     const { page, pageSize } = paginationDto;
     const skip = (page - 1) * pageSize;
 
@@ -20,19 +20,23 @@ export class SpeciesService {
       skip: skip,
       relations: {
         films: true,
-        people: true,
+        vehicles: true,
+        starships: true,
+        species: true,
       },
     });
   }
 
-  getSpecies(idk: number) {
+  getPeople(idk: number) {
     return this.entityRepository.findOne({
       where: {
         id: idk,
       },
       relations: {
         films: true,
-        people: true,
+        vehicles: true,
+        starships: true,
+        species: true,
       },
     });
   }
