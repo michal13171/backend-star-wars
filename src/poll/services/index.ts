@@ -1,4 +1,4 @@
-export * from './app.service';
+export * from '../../config/services/app.service';
 export * from './film.service';
 export * from '../people/services/people.service';
 export * from './planet.service';
