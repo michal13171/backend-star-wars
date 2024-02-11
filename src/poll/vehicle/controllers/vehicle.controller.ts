@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Query,
@@ -17,6 +18,8 @@ import { VehiclesInterface } from '../interfaces/vehicles.interface';
 @UseInterceptors(CacheInterceptor)
 @Controller('vehicle')
 export class VehicleController {
+  private readonly logger = new Logger(VehicleController.name);
+
   constructor(private vehiclesService: VehicleService) {}
 
   @Get()
@@ -32,7 +35,11 @@ export class VehicleController {
   getAllVehicles(
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationInterface<VehiclesInterface[]>> {
-    return this.vehiclesService.getAllVehicles(paginationDto);
+    try {
+      return this.vehiclesService.getAllVehicles(paginationDto);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 
   @Get(':id')
@@ -43,6 +50,10 @@ export class VehicleController {
   getVehicle(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<VehiclesInterface> {
-    return this.vehiclesService.getVehicle(id);
+    try {
+      return this.vehiclesService.getVehicle(id);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 }
