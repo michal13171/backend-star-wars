@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Query,
@@ -18,6 +19,8 @@ import { PaginationInterface } from '../../../config/interfaces/pagination.inter
 @ApiTags('peoples')
 @Controller('peoples')
 export class PeopleController {
+  private readonly logger = new Logger(PeopleController.name);
+
   constructor(private peopleService: PeopleService) {}
 
   @Get()
@@ -34,7 +37,11 @@ export class PeopleController {
   getAllPeople(
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationInterface<PeopleInterface[]>> {
-    return this.peopleService.getAllPeople(paginationDto);
+    try {
+      return this.peopleService.getAllPeople(paginationDto);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 
   @Get(':id')
@@ -44,6 +51,10 @@ export class PeopleController {
     description: `Single people with relationships`,
   })
   getPeople(@Param('id', ParseIntPipe) id: number): Promise<PeopleInterface> {
-    return this.peopleService.getPeople(id);
+    try {
+      return this.peopleService.getPeople(id);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 }
