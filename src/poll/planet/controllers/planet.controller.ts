@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Query,
@@ -17,6 +18,8 @@ import { PlanetsInterface } from '../interfaces/planets.interface';
 @UseInterceptors(CacheInterceptor)
 @Controller('planet')
 export class PlanetController {
+  private readonly logger = new Logger(PlanetController.name);
+
   constructor(private planetService: PlanetService) {}
 
   @Get()
@@ -32,7 +35,11 @@ export class PlanetController {
   getAllPlanets(
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationInterface<PlanetsInterface[]>> {
-    return this.planetService.getAllPlanet(paginationDto);
+    try {
+      return this.planetService.getAllPlanet(paginationDto);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 
   @Get(':id')
@@ -41,6 +48,10 @@ export class PlanetController {
     description: `Single planet with relationships`,
   })
   getPlanet(@Param('id', ParseIntPipe) id: number): Promise<PlanetsInterface> {
-    return this.planetService.getPlanet(id);
+    try {
+      return this.planetService.getPlanet(id);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 }
