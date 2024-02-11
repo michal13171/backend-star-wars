@@ -3,92 +3,113 @@ import { AppService } from '../../../config/services/app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { UL_SWAPI } from '@environments';
 import { FilmsInterface } from '../interfaces/films.interface';
+import { PaginationDto } from '../../../config/dto/pagination.dto';
 
 @Injectable()
 export class FilmService {
   private readonly logger = new Logger(FilmService.name);
-
-  wordOccurrences: Record<string, number> = {};
-  characterOccurrences: Record<string, number> = {};
 
   constructor(
     @Inject(AppService) private appService: AppService,
     @Inject('GLOBAL_FILM_SERVICE') private client: ClientProxy,
   ) {}
 
-  async getAllFilms() {
-    const pattern = { cmd: 'film_listing' };
-    const films = this.appService.fetchData(`${UL_SWAPI}/films`);
+  async getAllCharactersFindInTitleFilms(paginationDto: PaginationDto) {
+    return this.appService
+      .fetchData(`${UL_SWAPI}/films`, paginationDto)
+      .then((value) => {
+        const pattern = { cmd: 'film_listing' };
 
-    films.then((value) =>
-      this.handlePatternAndListingFilms(pattern, value.results),
-    );
+        return this.fromListingFilmsGetArrayOnlyTitleAndSecondArrayGetCharactersNameFromNewEndpointCharacter(
+          pattern,
+          value['results'],
+        );
+      })
+      .catch((reason) => this.logger.error(`${reason.message}`, 'bootstrap'));
   }
 
   getFilm(idk: number) {
     const pattern = { cmd: `films_${idk}` };
-    const payload = this.appService.fetchData(`${UL_SWAPI}/films/${idk}`);
+    const payload = this.appService
+      .fetchData(`${UL_SWAPI}/films/${idk}`)
+      .catch((reason) => this.logger.error(`${reason.message}`, 'bootstrap'));
     this.client.send(pattern, payload);
 
     return payload;
   }
 
-  private handlePatternAndListingFilms(
+  private async fromListingFilmsGetArrayOnlyTitleAndSecondArrayGetCharactersNameFromNewEndpointCharacter(
     pattern: { cmd: string },
     films: FilmsInterface[],
   ) {
+    const arrayFilmsOpeningCrawls: any[] = [];
+    const arrayCharactersNames: any[] = [];
+    const arrayCharacters: any[] = [];
+
     for (let i = 0; i < films.length; i++) {
-      this.logger.log(`41 line code: ${films[i]['title']}`);
       const findUniqueWords = /\s+([ \t\r\n]+)\s*/;
       const openings = films[i]['opening_crawl'].split(findUniqueWords);
-      const input = '   \t\r\n  ';
-
-      if (findUniqueWords.test(input)) {
-        openings.forEach((word) => {
-          if (word) {
-            this.wordOccurrences[word] = (this.wordOccurrences[word] || 0) + 1;
-          }
-        });
-      }
+      arrayFilmsOpeningCrawls.push(openings);
 
       if (films[i]['characters'].length > 0) {
-        films[i]['characters'].forEach((data: any) => {
-          this.logger.debug(`56 line code: ${this.appService.fetchData(data)}`);
-          this.appService.fetchData(data).then((character) => {
-            const characterName = character['name'];
-            this.logger.debug(`59 line code: ${characterName}`);
-            this.characterOccurrences[characterName] =
-              (this.characterOccurrences[characterName] || 0) + 1;
-          });
-        });
+        arrayCharacters.push(films[i]['characters']);
       }
     }
 
-    this.logger.debug(`67 line code: ${this.characterOccurrences}`);
+    for (let j = 0; j < arrayCharacters[0].length; j++) {
+      const data = arrayCharacters[0][j];
 
-    const maxOccurrences = Math.max(
-      ...Object.values(this.characterOccurrences),
+      const character = await this.appService
+        .fetchData(data)
+        .catch((reason) => this.logger.error(`${reason.message}`, 'bootstrap'));
+      const characterName = character['name'];
+
+      arrayCharactersNames.push(characterName);
+    }
+
+    return this.showFromMergeTitleTextAllCharactersFindedFromCharacterEndpoint(
+      arrayFilmsOpeningCrawls,
+      arrayCharactersNames,
+      pattern,
+    );
+  }
+
+  findCharactersInText(characters: string[], text: string) {
+    const foundCharacters = [];
+
+    characters.forEach((character) => {
+      if (text.includes(character)) {
+        foundCharacters.push(character);
+      }
+    });
+
+    return foundCharacters;
+  }
+
+  private async showFromMergeTitleTextAllCharactersFindedFromCharacterEndpoint(
+    arrayFilmsOpeningCrawls: any[],
+    arrayCharactersNames: any[],
+    pattern: {
+      cmd: string;
+    },
+  ) {
+    const getAllTitleMovies = arrayFilmsOpeningCrawls
+      .flatMap((value) => value)
+      .join(',');
+
+    const foundCharacters = this.findCharactersInText(
+      arrayCharactersNames,
+      getAllTitleMovies,
     );
 
-    this.logger.log(`73 line code: ${maxOccurrences}`);
-
-    const mostFrequentCharacters = Object.keys(
-      this.characterOccurrences,
-    ).filter(
-      (character) => this.characterOccurrences[character] === maxOccurrences,
+    // only character without free space
+    const getCountWords = foundCharacters.map(
+      (value) => value.replace(' ', '').length,
     );
-    this.logger.log(`80 line code: ${mostFrequentCharacters}`);
-    this.logger.log(`81 line code: ${this.wordOccurrences}`);
 
     const payload = {
-      wordOccurrences: Object.entries(this.wordOccurrences).map(([word]) => {
-        const word_counts = word.trim().length;
-        return {
-          word: word,
-          count: word_counts,
-        };
-      }),
-      mostFrequentCharacters,
+      wordOccurrences: foundCharacters,
+      characterOccurrences: getCountWords,
     };
     this.client.send(pattern, payload);
 
