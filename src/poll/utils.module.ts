@@ -5,7 +5,6 @@ import { PlanetModule } from './planet/planet.module';
 import { SpeciesModule } from './species/species.module';
 import { StarshipModule } from './starship/starship.module';
 import { VehicleModule } from './vehicle/vehicle.module';
-import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { AppController } from './app.controller';
     StarshipModule,
     VehicleModule,
   ],
-  controllers: [AppController],
   exports: [UtilsModule],
 })
 export class UtilsModule {}
