@@ -4,7 +4,10 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript.
+[Nest](https://github.com/nestjs/nest) framework TypeScript. This is the project which get all endpoints from api [Swapi All the Star Wars data](https://swapi.dev/)
+single data and listing. 
+### Task
+Challenge for me is in Movie where i have to get all titles movies and all characters name from another endpoint and find in title movies that people and show in result array names and count that chars without space
 
 ## General Configuration for this project
 
