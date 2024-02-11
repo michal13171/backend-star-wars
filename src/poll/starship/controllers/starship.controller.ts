@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Query,
@@ -17,6 +18,8 @@ import { PaginationInterface } from '../../../config/interfaces/pagination.inter
 @UseInterceptors(CacheInterceptor)
 @Controller('starship')
 export class StarshipController {
+  private readonly logger = new Logger(StarshipController.name);
+
   constructor(private starshipsService: StarshipService) {}
 
   @Get()
@@ -32,7 +35,11 @@ export class StarshipController {
   getAllStarships(
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationInterface<StarshipsInterface[]>> {
-    return this.starshipsService.getAllStarships(paginationDto);
+    try {
+      return this.starshipsService.getAllStarships(paginationDto);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 
   @Get(':id')
@@ -43,6 +50,10 @@ export class StarshipController {
   getStarship(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<StarshipsInterface> {
-    return this.starshipsService.getStarship(id);
+    try {
+      return this.starshipsService.getStarship(id);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 }
