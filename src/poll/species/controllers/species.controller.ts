@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Query,
@@ -17,6 +18,8 @@ import { SpeciesInterface } from '../interfaces/species.interface';
 @UseInterceptors(CacheInterceptor)
 @Controller('species')
 export class SpeciesController {
+  private readonly logger = new Logger(SpeciesController.name);
+
   constructor(private speciesService: SpeciesService) {}
 
   @Get()
@@ -32,7 +35,11 @@ export class SpeciesController {
   getAllSpecies(
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationInterface<SpeciesInterface[]>> {
-    return this.speciesService.getAllSpecies(paginationDto);
+    try {
+      return this.speciesService.getAllSpecies(paginationDto);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 
   @Get(':id')
@@ -41,6 +48,10 @@ export class SpeciesController {
     description: `Single species with relationships`,
   })
   getSpecies(@Param('id', ParseIntPipe) id: number): Promise<SpeciesInterface> {
-    return this.speciesService.getSpecies(id);
+    try {
+      return this.speciesService.getSpecies(id);
+    } catch (e) {
+      this.logger.error(`${e.message}`, 'bootstrap');
+    }
   }
 }
