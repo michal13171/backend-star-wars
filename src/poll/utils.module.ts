@@ -1,83 +1,22 @@
-import {Module} from '@nestjs/common';
-import {
-	AppController,
-	FilmController,
-	PeopleController,
-	PlanetController,
-	SpeciesController,
-	StarshipController,
-	VehicleController
-} from "@controllers";
-import {Repository} from "typeorm";
-import {
-	AppService,
-	FilmService,
-	PeopleService,
-	PlanetService,
-	SpeciesService,
-	StarshipService,
-	VehicleService
-} from "@services";
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {FilmEntity, PeopleEntity, PlanetEntity, SpecieEntity, StarshipEntity, VehicleEntity} from "@entities";
-import {CacheInterceptor, CacheModule} from "@nestjs/cache-manager";
-import {RedisOptions} from "../config/cache";
-import {APP_INTERCEPTOR} from "@nestjs/core";
-import {
-	FilmSeeder,
-	PeopleSeeder,
-	PlanetSeeder,
-	SpeciesSeeder,
-	StarshipSeeder,
-	VehicleSeeder
-} from "@seeders";
-import {SeederModule} from "nestjs-seeder/dist/seeder/seeder.module";
+import { Module } from '@nestjs/common';
+import { PeopleModule } from './people/people.module';
+import { FilmModule } from './film/film.module';
+import { PlanetModule } from './planet/planet.module';
+import { SpeciesModule } from './species/species.module';
+import { StarshipModule } from './starship/starship.module';
+import { VehicleModule } from './vehicle/vehicle.module';
+import { AppController } from './app.controller';
 
 @Module({
-	controllers: [
-		AppController,
-		PlanetController,
-		VehicleController,
-		FilmController,
-		SpeciesController,
-		StarshipController,
-		PeopleController
-	],
-	imports:
-		[
-			SeederModule,
-			TypeOrmModule.forFeature([
-				PeopleEntity,
-				FilmEntity,
-				VehicleEntity,
-				StarshipEntity,
-				SpecieEntity,
-				PlanetEntity,
-			]),
-			CacheModule.registerAsync(RedisOptions),
-		],
-	providers: [
-		Repository,
-		{
-			provide: APP_INTERCEPTOR,
-			useClass: CacheInterceptor,
-		},
-		AppService,
-		PeopleService,
-		VehicleService,
-		SpeciesService,
-		FilmService,
-		StarshipService,
-		PlanetService,
-		PeopleSeeder,
-		VehicleSeeder,
-		StarshipSeeder,
-		SpeciesSeeder,
-		PlanetSeeder,
-		FilmSeeder,
-	],
-	exports: [
-		UtilsModule
-	]
+  imports: [
+    PeopleModule,
+    FilmModule,
+    PlanetModule,
+    SpeciesModule,
+    StarshipModule,
+    VehicleModule,
+  ],
+  controllers: [AppController],
+  exports: [UtilsModule],
 })
 export class UtilsModule {}
