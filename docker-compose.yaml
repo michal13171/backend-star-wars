@@ -41,8 +41,6 @@ services:
       dockerfile: Dockerfile
     networks:
       - nestjs_app
-    ports:
-      - '${BACKEND_PORT}:3000'
     depends_on:
       - redis
     volumes:

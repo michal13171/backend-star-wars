@@ -1,6 +1,6 @@
 const NODE_ENV: string = process.env.NODE_ENV ?? 'development';
 const REDIS = {
-  host: process.env.REDIS_HOST ?? 'nestjs_redis',
+  host: process.env.REDIS_HOST ?? 'localhost',
   port: 6379,
 };
 const UL_SWAPI: string = 'https://swapi.dev/api';

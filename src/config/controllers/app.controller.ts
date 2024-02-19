@@ -7,6 +7,9 @@ export class AppController {
   @Get()
   @ApiResponse({ status: 200, description: 'Hello world' })
   helloWorld(): string {
+    
+    console.log(process.env.REDIS_HOST)
+    console.log(process.env.REDIS_PORT)
     return 'Hello World';
   }
 }
