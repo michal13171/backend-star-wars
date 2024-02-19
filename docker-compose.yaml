@@ -6,6 +6,8 @@ services:
     container_name: nestjs_redis
     restart: unless-stopped
     image: redis:7-bullseye
+    networks:
+      - nestjs_app
     ports:
       - '${REDIS_PORT}:6379'
     healthcheck:
@@ -21,6 +23,8 @@ services:
       REDIS_HOSTS: nestjs_redis
       REDIS_HOST: nestjs_redis
       REDIS_PORT: redis:6379
+    networks:
+      - nestjs_app
     ports:
       - '${REDIS_COMMANDER_PORT}:8081'
     healthcheck:
@@ -35,15 +39,23 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    networks:
+      - nestjs_app
     ports:
       - '${BACKEND_PORT}:3000'
     depends_on:
       - redis
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - nestjs_app_vendor:/usr/src/app/node_modules
     healthcheck:
       test: ['CMD', 'curl', 'localhost:${BACKEND_PORT}']
       interval: 10s
       timeout: 5s
       retries: 5
+
+volumes:
+  nestjs_app_vendor:
+
+networks:
+  nestjs_app:
