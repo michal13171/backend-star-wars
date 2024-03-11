@@ -20,7 +20,7 @@ export class FilmService {
       .then((value) => {
         const pattern = { cmd: 'film_listing' };
 
-        return this.fromListingFilmsGetArrayOnlyTitleAndSecondArrayGetCharactersNameFromNewEndpointCharacter(
+        return this.getFilmTitleAndCharName(
           pattern,
           value['results'],
         );
@@ -38,7 +38,10 @@ export class FilmService {
     return payload;
   }
 
-  private async fromListingFilmsGetArrayOnlyTitleAndSecondArrayGetCharactersNameFromNewEndpointCharacter(
+  /**
+   * Listing films and get array only title And second array get characters by name from new endpoint character
+   */
+  private async getFilmTitleAndCharName(
     pattern: { cmd: string },
     films: FilmsInterface[],
   ) {
@@ -67,7 +70,7 @@ export class FilmService {
       arrayCharactersNames.push(characterName);
     }
 
-    return this.showFromMergeTitleTextAllCharactersFindedFromCharacterEndpoint(
+    return this.mergeTitlesTextFromAllCharsFromEndpoint(
       arrayFilmsOpeningCrawls,
       arrayCharactersNames,
       pattern,
@@ -85,8 +88,11 @@ export class FilmService {
 
     return foundCharacters;
   }
-
-  private async showFromMergeTitleTextAllCharactersFindedFromCharacterEndpoint(
+  
+  /**
+   * From merged titles all characters from endpoint
+   */
+  private async mergeTitlesTextFromAllCharsFromEndpoint(
     arrayFilmsOpeningCrawls: any[],
     arrayCharactersNames: any[],
     pattern: {
